@@ -27,6 +27,12 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 
 3. Access the web interface at `http://your-server-ip:5000` and complete the setup.
 
+4. If the FRPC service is not automatically set up, you can run the service setup script:
+   ```
+   sudo bash setup_frpc_service.sh
+   ```
+   See [SERVICE_SETUP.md](SERVICE_SETUP.md) for more details on service management.
+
 ### Manual Installation
 
 1. Clone this repository:

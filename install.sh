@@ -75,11 +75,31 @@ User=root
 WantedBy=multi-user.target
 EOF
 
-# Enable and start the service
-echo "Enabling and starting FRPC Manager service..."
+# Create FRPC service
+echo "Creating FRPC service..."
+cat > /etc/systemd/system/frpc.service << EOF
+[Unit]
+Description=frpc service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/frpc -c /etc/frpc/frpc.toml
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable and start the services
+echo "Enabling and starting services..."
 systemctl daemon-reload
 systemctl enable frpc-manager.service
+systemctl enable frpc.service
 systemctl start frpc-manager.service
+# Note: frpc service will be started after setup is completed via the web UI
 
 echo "=== Installation Complete ==="
 echo "FRPC Manager is now installed and running on http://localhost:5000"
