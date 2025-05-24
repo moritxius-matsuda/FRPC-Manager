@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Initial FRPC Setup</h5>
+            </div>
+            <div class="card-body">
+                <p class="alert alert-info">
+                    Welcome to FRPC Manager! Please provide the following information to set up FRPC.
+                    This will download the latest version of FRPC and configure it as a service.
+                </p>
+                
+                <form action="{{ url_for('main.setup') }}" method="post">
+                    <div class="mb-3">
+                        <label for="server_ip" class="form-label">FRPS Server IP</label>
+                        <input type="text" class="form-control" id="server_ip" name="server_ip" required>
+                        <div class="form-text">The IP address of your FRPS server</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="server_port" class="form-label">FRPS Server Port</label>
+                        <input type="number" class="form-control" id="server_port" name="server_port" value="7000" required>
+                        <div class="form-text">The port your FRPS server is listening on (default: 7000)</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="token" class="form-label">Authentication Token (Optional)</label>
+                        <input type="text" class="form-control" id="token" name="token">
+                        <div class="form-text">If your FRPS server requires authentication, enter the token here</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Set Up FRPC</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

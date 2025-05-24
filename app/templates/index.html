@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Common Settings</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('main.edit_common') }}" method="post">
+                    <div class="mb-3">
+                        <label for="server_addr" class="form-label">Server Address</label>
+                        <input type="text" class="form-control" id="server_addr" name="server_addr" value="{{ config.common.server_addr }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="server_port" class="form-label">Server Port</label>
+                        <input type="number" class="form-control" id="server_port" name="server_port" value="{{ config.common.server_port }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="token" class="form-label">Token (Optional)</label>
+                        <input type="text" class="form-control" id="token" name="token" value="{{ config.common.token }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Common Settings</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Add New Endpoint</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('main.add_endpoint') }}" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Endpoint Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option value="tcp">TCP</option>
+                            <option value="udp">UDP</option>
+                            <option value="http">HTTP</option>
+                            <option value="https">HTTPS</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="local_ip" class="form-label">Local IP</label>
+                        <input type="text" class="form-control" id="local_ip" name="local_ip" value="127.0.0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="local_port" class="form-label">Local Port</label>
+                        <input type="number" class="form-control" id="local_port" name="local_port" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="remote_port" class="form-label">Remote Port</label>
+                        <input type="number" class="form-control" id="remote_port" name="remote_port" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Endpoint</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Configured Endpoints</h5>
+    </div>
+    <div class="card-body">
+        {% if config.endpoints %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Local IP</th>
+                            <th>Local Port</th>
+                            <th>Remote Port</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for name, settings in config.endpoints.items() %}
+                            <tr>
+                                <td>{{ name }}</td>
+                                <td>{{ settings.type }}</td>
+                                <td>{{ settings.local_ip }}</td>
+                                <td>{{ settings.local_port }}</td>
+                                <td>{{ settings.remote_port }}</td>
+                                <td>
+                                    <a href="{{ url_for('main.delete_endpoint', name=name) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this endpoint?')">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">No endpoints configured yet.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
