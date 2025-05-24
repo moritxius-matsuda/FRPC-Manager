@@ -75,6 +75,72 @@ User=root
 WantedBy=multi-user.target
 EOF
 
+# Download and install FRPC
+echo "Downloading and installing FRPC..."
+
+# Determine system architecture
+ARCH=$(uname -m)
+if [ "$ARCH" == "x86_64" ]; then
+  ARCH="amd64"
+elif [ "$ARCH" == "aarch64" ]; then
+  ARCH="arm64"
+fi
+
+# Set FRPC version
+VERSION="v0.51.3"  # You can change this to the latest version
+
+# Create temporary directory
+TMP_DIR="/tmp/frpc_download"
+mkdir -p $TMP_DIR
+
+# Download FRPC
+echo "Downloading FRPC $VERSION for $ARCH..."
+DOWNLOAD_URL="https://github.com/fatedier/frp/releases/download/$VERSION/frp_${VERSION#v}_linux_$ARCH.tar.gz"
+echo "Download URL: $DOWNLOAD_URL"
+
+wget -O $TMP_DIR/frpc.tar.gz $DOWNLOAD_URL
+
+if [ $? -ne 0 ]; then
+  echo "Failed to download FRPC. Please check your internet connection."
+  echo "You can manually download it later using: sudo bash download_frpc.sh"
+else
+  # Extract the archive
+  echo "Extracting FRPC..."
+  tar -xzf $TMP_DIR/frpc.tar.gz -C $TMP_DIR
+
+  # Find the frpc binary
+  FRPC_DIR=$(find $TMP_DIR -type d -name "frp_*" | head -n 1)
+  if [ -z "$FRPC_DIR" ]; then
+    echo "Failed to find FRPC directory in the extracted archive."
+    echo "You can manually download it later using: sudo bash download_frpc.sh"
+  else
+    # Copy the binary to /usr/local/bin
+    echo "Installing FRPC to /usr/local/bin..."
+    cp $FRPC_DIR/frpc /usr/local/bin/
+    chmod +x /usr/local/bin/frpc
+
+    # Create config directory if it doesn't exist
+    mkdir -p /etc/frpc
+
+    # Create a basic config file if it doesn't exist
+    if [ ! -f "/etc/frpc/frpc.toml" ]; then
+      echo "Creating a basic config file at /etc/frpc/frpc.toml..."
+      cat > /etc/frpc/frpc.toml << EOF
+[common]
+# Please configure these settings through the web interface
+server_addr = 127.0.0.1
+server_port = 7000
+EOF
+    fi
+
+    # Clean up
+    echo "Cleaning up..."
+    rm -rf $TMP_DIR
+    
+    echo "FRPC installation complete."
+  fi
+fi
+
 # Create FRPC service
 echo "Creating FRPC service..."
 cat > /etc/systemd/system/frpc.service << EOF

@@ -5,10 +5,11 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 ## Features
 
 - Web UI for managing FRPC endpoints
-- Automatic download and installation of FRPC
+- Automatic download and installation of FRPC during setup
 - Systemd service setup for both FRPC and the web UI
 - Easy configuration of FRPC endpoints
 - One-click restart of FRPC service
+- Support for various Linux distributions
 
 ## Installation
 
@@ -27,16 +28,26 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 
 3. Access the web interface at `http://your-server-ip:5000` and complete the setup.
 
-4. If the FRPC binary is not automatically downloaded, you can run the download script:
+The installation script automatically:
+- Downloads and installs the FRPC binary
+- Creates a basic configuration file
+- Sets up systemd services for both FRPC and the web UI
+
+### Troubleshooting
+
+If you encounter any issues during installation:
+
+1. If the FRPC binary is not automatically downloaded, you can run the download script:
    ```
    sudo bash download_frpc.sh
    ```
 
-5. If the FRPC service is not automatically set up, you can run the service setup script:
+2. If the FRPC service is not automatically set up, you can run the service setup script:
    ```
    sudo bash setup_frpc_service.sh
    ```
-   See [SERVICE_SETUP.md](SERVICE_SETUP.md) for more details on service management.
+
+See [SERVICE_SETUP.md](SERVICE_SETUP.md) for more details on service management.
 
 ### Manual Installation
 
