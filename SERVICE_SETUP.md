@@ -70,10 +70,15 @@ Wenn der Dienst nicht startet, überprüfe:
    ```bash
    ls -la /usr/local/bin/frpc
    ```
+   
+   Falls die Binärdatei nicht existiert, führe das Download-Skript aus:
+   ```bash
+   sudo bash download_frpc.sh
+   ```
 
 3. Ob die Dienstkonfiguration korrekt ist:
    ```bash
    cat /etc/systemd/system/frpc.service
    ```
 
-Falls einer dieser Schritte fehlschlägt, führe das Setup-Skript erneut aus oder kontaktiere den Support.
+Falls einer dieser Schritte fehlschlägt, führe die entsprechenden Setup-Skripte erneut aus oder kontaktiere den Support.
