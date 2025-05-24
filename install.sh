@@ -17,13 +17,15 @@ echo "Installing dependencies..."
 if command -v apt-get &> /dev/null; then
     # Debian/Ubuntu
     apt-get update
-    apt-get install -y python3 python3-pip python3-venv
+    apt-get install -y python3 python3-pip python3-venv python3-flask
 elif command -v yum &> /dev/null; then
     # CentOS/RHEL
     yum install -y python3 python3-pip
+    pip3 install flask requests
 elif command -v dnf &> /dev/null; then
     # Fedora
     dnf install -y python3 python3-pip
+    pip3 install flask requests
 else
     echo "Unsupported package manager. Please install Python 3 and pip manually."
     exit 1
@@ -43,7 +45,15 @@ echo "Setting up Python environment..."
 cd $INSTALL_DIR
 python3 -m venv venv
 source venv/bin/activate
+# Make sure pip is up to date
+pip install --upgrade pip
+# Install required packages
 pip install flask requests
+# Verify flask is installed
+if ! pip show flask > /dev/null; then
+    echo "Flask installation failed. Installing again..."
+    pip install flask
+fi
 
 # Create systemd service for FRPC Manager
 echo "Creating systemd service..."
@@ -54,8 +64,9 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/frpc-manager/venv/bin/python /opt/frpc-manager/run.py
+ExecStart=/opt/frpc-manager/venv/bin/python3 /opt/frpc-manager/run.py
 WorkingDirectory=/opt/frpc-manager
+Environment="PATH=/opt/frpc-manager/venv/bin:/usr/local/bin:/usr/bin:/bin"
 Restart=always
 RestartSec=5
 User=root

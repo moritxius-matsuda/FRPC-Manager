@@ -16,8 +16,8 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/frpc-manager.git
-   cd frpc-manager
+   git clone https://github.com/moritxius-matsuda/FRPC-Manager.git
+   cd FRPC-Manager
    ```
 
 2. Run the installation script as root:
@@ -31,8 +31,8 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/frpc-manager.git
-   cd frpc-manager
+   git clone https://github.com/moritxius-matsuda/FRPC-Manager.git
+   cd FRPC-Manager
    ```
 
 2. Install dependencies:

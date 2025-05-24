@@ -123,7 +123,6 @@ After=network.target
 Type=simple
 ExecStart=/usr/bin/python3 {parent_dir}/run.py
 WorkingDirectory={parent_dir}
-Environment="PATH=/usr/local/bin:/usr/bin:/bin"
 Restart=always
 RestartSec=5
 User=root
@@ -318,4 +317,4 @@ def restart():
     else:
         flash('Failed to restart FRPC', 'error')
     
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.index')
