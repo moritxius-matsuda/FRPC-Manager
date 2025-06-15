@@ -22,12 +22,67 @@
             margin-top: 30px;
         }
     </style>
+    <style>
+  .dark-mode {
+      background-color: #181a1b !important;
+      color: #f1f1f1 !important;
+  }
+  .dark-mode .card, .dark-mode .table, .dark-mode .alert {
+      background-color: #23272b !important;
+      color: #f1f1f1 !important;
+  }
+  .dark-mode .form-control, .dark-mode .form-select {
+      background-color: #23272b !important;
+      color: #f1f1f1 !important;
+      border-color: #444c54 !important;
+  }
+  .dark-mode .btn-primary, 
+  .dark-mode .btn-success, 
+  .dark-mode .btn-danger {
+      background-color: #444c54 !important;
+      border-color: #444c54 !important;
+      color: #fff !important;
+  }
+  .dark-mode .btn-primary:hover, 
+  .dark-mode .btn-success:hover, 
+  .dark-mode .btn-danger:hover {
+      background-color: #22262b !important;
+      border-color: #22262b !important;
+  }
+</style>
 </head>
 <body>
     <div class="container">
         <div class="header d-flex justify-content-between align-items-center">
             <h3>FRPC Manager</h3>
             <a href="{{ url_for('main.restart') }}" class="btn btn-warning">Restart FRPC</a>
+            <!-- Dark Mode Toggle Button -->
+<div class="form-check form-switch my-3">
+  <input class="form-check-input" type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+  <label class="form-check-label" for="darkModeSwitch" id="darkModeLabel">Dark Mode</label>
+</div>
+
+<script>
+  function toggleDarkMode() {
+    const body = document.body;
+    const dark = 'dark-mode';
+    if (body.classList.contains(dark)) {
+      body.classList.remove(dark);
+      localStorage.setItem('darkMode', 'off');
+    } else {
+      body.classList.add(dark);
+      localStorage.setItem('darkMode', 'on');
+    }
+  }
+
+  // Beim Laden prüfen, ob Dark Mode aktiviert war
+  window.onload = function() {
+    if(localStorage.getItem('darkMode') === 'on') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('darkModeSwitch').checked = true;
+    }
+  }
+</script>
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
