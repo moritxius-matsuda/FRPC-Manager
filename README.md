@@ -4,6 +4,7 @@ A web-based management interface for [frp](https://github.com/fatedier/frp) clie
 
 ## Features
 
+- Darkmode
 - Web UI for managing FRPC endpoints
 - Automatic download and installation of FRPC during setup
 - Systemd service setup for both FRPC and the web UI
